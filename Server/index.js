@@ -3,11 +3,18 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const { default: mongoose } = require("mongoose");
 const authRoutes = require("./routes/AuthRoutes");
+const cors = require("cors");
 const app = express();
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
 const databaseURL = process.env.DATABASE_URL
+
+app.use(cors({
+    origin:[process.env.ORIGIN],
+    methods:["GET","POST","PUT","DELETE","PATCH"],
+    credentials:true 
+}))
 
 app.use(express.json()); // This middleware is used to parse incoming requests that contain JSON payloads. It converts the JSON data into a JavaScript object and makes it available in req.body.
 app.use(cookieParser()); // This adds the cookieParser middleware to your Express app, which allows you to easily access cookies in req.cookies. It helps in handling HTTP cookies sent by the browser.
