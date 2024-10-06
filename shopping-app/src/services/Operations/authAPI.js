@@ -6,7 +6,8 @@ import { setUser } from "../../slices/profileSlice"
 
 const {
     SIGNUP_API,
-    LOGIN_API
+    LOGIN_API,
+    LOGOUT_API
 } = endpoints
 
 export function signUp(accountType , firstName , lastName , email , password , confirmPassword , navigate){
@@ -26,9 +27,11 @@ export function signUp(accountType , firstName , lastName , email , password , c
             }
             toast.success("Signup Successfully")
             dispatch(setToken(response.data.token))
+            dispatch(setUser({...response.data.user}))
+
 
             localStorage.setItem("user",JSON.stringify(response.data.user))
-            localStorage.setItem("token",JSON.stringify(response.data.token))
+            localStorage.setItem("jwt",JSON.stringify(response.data.token))
             // navigate("/login")
             navigate("Profile")
         }
@@ -67,7 +70,7 @@ export function login(email , password , navigate){
             dispatch(setUser({...response.data.user , image:userImage}))
 
             localStorage.setItem("user",JSON.stringify(response.data.user))
-            localStorage.setItem("token",JSON.stringify(response.data.token))
+            localStorage.setItem("jwt",JSON.stringify(response.data.token))
            
             navigate("Profile")
         }
@@ -77,5 +80,19 @@ export function login(email , password , navigate){
           }
         dispatch(setLoading(false))
         toast.dismiss(toastId)
+    }
+}
+
+export function logout(navigate){
+    return async(dispatch) => {
+
+        const response = await APIConnector("POST" , LOGOUT_API , {})
+        dispatch(setToken(null))
+        dispatch(setUser(null))
+        // dispatch(resetCart())
+        localStorage.removeItem("jwt")
+        localStorage.removeItem("user")
+        toast.success("Logged Out")
+        navigate("/")
     }
 }

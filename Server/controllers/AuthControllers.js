@@ -124,7 +124,7 @@ exports.logIn = async(req,res,next) => {
         existUser.token = token;
         existUser.password = undefined;
 
-        res.cookie("token", token, {
+        res.cookie("jwt", token, {
             maxAge,
             secure: true,  // Conditionally use secure cookies
             sameSite: "None"
@@ -143,5 +143,15 @@ exports.logIn = async(req,res,next) => {
             success:false,
             message:"Loggin Failue Try Again"
         })
+    }
+}
+
+exports.logOut = async(req,res,next) => {
+    try{
+        res.cookie("jwt" , "" ,{maxAge:1 , secure:true, sameSite:"None"})
+        return res.status(200).send("Logout Successfull")
+    }catch(error){
+        console.log({error})
+        return res.status(500).send("Internal Server Error")
     }
 }

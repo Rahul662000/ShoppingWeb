@@ -6,10 +6,12 @@ import LogIn from "./pages/LogIn"
 import OpenRoute from "./components/core/OpenRoute";
 import PrivateRoute from "./components/core/PrivateRoute";
 import Profile from './pages/Profile';
+import NavBar from './components/common/NavBar';
 
 function App() {
   return (
-    <div className="App">
+    <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
+    <NavBar/>
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route 
