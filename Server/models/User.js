@@ -26,11 +26,11 @@ const userSchema = new mongoose.Schema({
         enum : ["Admin","Buyer","Seller"],
         required:true
     },
-    // additionalDetails : {
-    //     type:mongoose.Schema.ObjectId,
-    //     required:true,
-    //     ref:"Profile"
-    // },
+    additionalDetails : {
+        type:mongoose.Schema.ObjectId,
+        required:true,
+        ref:"Profile"
+    },
     // purchaseHistory: [{
     //     type:mongoose.Schema.ObjectId,
     //     ref:"OrderHistory"
@@ -42,9 +42,9 @@ const userSchema = new mongoose.Schema({
     token:{
         type:String,
     },
-    resetPasswordExpires:{
-        type:Date,
-    },
+    // resetPasswordExpires:{
+    //     type:Date,
+    // },
 
     },    // Add timestamps for when the document is created and last modified
 
@@ -52,10 +52,17 @@ const userSchema = new mongoose.Schema({
 
 );
 
-userSchema.pre("save" , async function(next){
+// userSchema.pre("save" , async function(next){
+//     const salt = await genSalt();
+//     this.password = await hash(this.password , salt);
+//     next();
+// });   {/* Premiddle ware work before saving the data we need to run this function */}
+
+userSchema.pre("save", async function(next) {
+    if (!this.isModified("password")) return next(); // Prevents re-hashing
     const salt = await genSalt();
-    this.password = await hash(this.password , salt);
+    this.password = await hash(this.password, salt);
     next();
-});   {/* Premiddle ware work before saving the data we need to run this function */}
+});
 
 module.exports = mongoose.model("User",userSchema);

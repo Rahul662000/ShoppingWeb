@@ -3,6 +3,9 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const { default: mongoose } = require("mongoose");
 const authRoutes = require("./routes/AuthRoutes");
+const profileRoutes = require("./routes/ProfileRoutes")
+const {cloudinaryConnect} = require("./config/cloudinary");
+const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const app = express();
 
@@ -16,10 +19,18 @@ app.use(cors({
     credentials:true 
 }))
 
+app.use(fileUpload({
+    useTempFiles:true,
+    tempFileDir:"/tmp"
+}))
+
+cloudinaryConnect();
+
 app.use(express.json()); // This middleware is used to parse incoming requests that contain JSON payloads. It converts the JSON data into a JavaScript object and makes it available in req.body.
 app.use(cookieParser()); // This adds the cookieParser middleware to your Express app, which allows you to easily access cookies in req.cookies. It helps in handling HTTP cookies sent by the browser.
 
 app.use('/api/auth' , authRoutes)
+app.use("/api/profile",profileRoutes);
 
 app.get("/",(req,res)=>{
     // res.send(`<h1>Welcome</h1>`);

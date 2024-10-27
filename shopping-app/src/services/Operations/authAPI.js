@@ -33,7 +33,7 @@ export function signUp(accountType , firstName , lastName , email , password , c
             localStorage.setItem("user",JSON.stringify(response.data.user))
             localStorage.setItem("jwt",JSON.stringify(response.data.token))
             // navigate("/login")
-            navigate("Profile")
+            navigate("/")
         }
         catch(error){
             console.log("SIGNUP API ERROR......",error)
@@ -72,7 +72,7 @@ export function login(email , password , navigate){
             localStorage.setItem("user",JSON.stringify(response.data.user))
             localStorage.setItem("jwt",JSON.stringify(response.data.token))
            
-            navigate("Profile")
+            navigate("/")
         }
         catch (error) {
             console.error("LOGIN API ERROR......", error);
@@ -86,7 +86,7 @@ export function login(email , password , navigate){
 export function logout(navigate){
     return async(dispatch) => {
 
-        const response = await APIConnector("POST" , LOGOUT_API , {})
+        await APIConnector("POST" , LOGOUT_API , {})
         dispatch(setToken(null))
         dispatch(setUser(null))
         // dispatch(resetCart())

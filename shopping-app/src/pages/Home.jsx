@@ -1,19 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import ProductList from '../components/test/ProductList'
 
 const Home = () => {
   return (
-    <div>
-        <Link to="/Signup">
-            <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md pointer'>
-                Sign Up  
-            </button>
-        </Link>
-        <Link to="/login">
-            <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md pointer'>
-                Log In
-            </button>
-        </Link>
+    <div className="App">
+      <h1 className="text-2xl font-bold text-center my-6">Product Catalog</h1>
+      <ProductList />
     </div>
   )
 }

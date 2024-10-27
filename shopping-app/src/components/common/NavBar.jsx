@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { ACCOUNT_TYPE } from '../../utils/constants'
 import { logout } from '../../services/Operations/authAPI'
+import ProfileDropDown from '../core/ProfileDropDown'
 
 const NavBar = () => {
 
@@ -12,6 +13,7 @@ const NavBar = () => {
 
     const {token} = useSelector((state) => state.auth)
     const {user} = useSelector((state) => state.profile)
+    const {totalItems} = useSelector((state) => state.cart)
     const [loading , setLoading] = useState(false);
 
     const handleLogout = () => {
@@ -19,7 +21,6 @@ const NavBar = () => {
         navigate('/login')
     }
 
-    const totalItems = 4;
 
   return (
     <div className='flex h-14 items-center justify-center border-b-[1px] border-richblack-700'>
@@ -52,14 +53,6 @@ const NavBar = () => {
                 }
 
                 {
-                    user && (
-                        <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md pointer' onClick={handleLogout}>
-                            Logout 
-                        </button>
-                    )
-                }
-
-                {
                     token === null && (
                         <Link to="/login" >
                             <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md pointer'>
@@ -78,11 +71,10 @@ const NavBar = () => {
                         </Link>
                     )
                 }
-{/* 
+
                 {
                     token !== null && <ProfileDropDown />
-                    
-                } */}
+                }
                 
             </div>
 

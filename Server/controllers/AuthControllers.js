@@ -1,6 +1,7 @@
 const { compare } = require("bcrypt");
 const user = require("../models/User")
 const jwt = require("jsonwebtoken");
+const Profile = require("../models/Profile")
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 const createToken = (email , userId) => {
@@ -42,12 +43,12 @@ exports.signUp = async(req,res,next) => {
             });
         }
 
-        // const profileDetails = await Profile.create({
-        //     gender:null,
-        //     dateOfBirth:null,
-        //     about:null,
-        //     contactNumber:null,
-        // }) 
+        const profileDetails = await Profile.create({
+            gender:null,
+            dateOfBirth:null,
+            about:null,
+            contactNumber:null,
+        }) 
 
         const userDB = await user.create({
             firstName,
@@ -56,7 +57,7 @@ exports.signUp = async(req,res,next) => {
             password,
             // contactNumber,
             accountType:accountType,
-            // additionalDetails:profileDetails._id, 
+            additionalDetails:profileDetails._id, 
             image:`https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
         })
 
